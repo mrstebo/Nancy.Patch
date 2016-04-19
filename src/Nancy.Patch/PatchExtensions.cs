@@ -7,7 +7,7 @@ namespace Nancy.Patch
 {
     public static class PatchExtensions
     {
-        public static T Patch<T>(this INancyModule module, T target)
+        public static PatchResult Patch<T>(this INancyModule module, T target)
         {
             var boundModel = module.Bind<T>();
             var propertiesToMerge = ExtractPropertiesToMerge(module.Request);

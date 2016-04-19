@@ -1,15 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Nancy.Patch
 {
     internal class PatchExecutor
     {
-        public T Patch<T>(T from, T to, IEnumerable<string> propertiesToMerge)
+        public PatchResult Patch<T>(T from, T to, IEnumerable<string> propertiesToMerge)
         {
-            MergeProperties(from, to, propertiesToMerge);
-
-            return to;
+            try
+            {
+                MergeProperties(from, to, propertiesToMerge);
+            }
+            catch (Exception ex)
+            {
+                return new PatchResult
+                {
+                    Succeeded = false,
+                    Message = ex.Message
+                };
+            }
+            return new PatchResult {Succeeded = true};
         }
 
         private static void MergeProperties<T>(T from, T to, IEnumerable<string> propertiesToMerge)
