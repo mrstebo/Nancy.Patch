@@ -21,7 +21,7 @@ namespace Nancy.Patch
 
             request.Body.Seek(0, SeekOrigin.Begin);
 
-            return propertyExtractor.Extract(request);
+            return propertyExtractor.Extract(request.Body);
         }
     }
 }

@@ -1,20 +1,28 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using Nancy.Extensions;
 using Newtonsoft.Json;
 
 namespace Nancy.Patch.PropertyExtractors
 {
     public class JsonPropertyExtractor : IPropertyExtractor
     {
-        public IEnumerable<string> Extract(Request request)
+        public IEnumerable<string> Extract(Stream requestStream)
         {
-            var content = request.Body.AsString();
+            var content = ExtractStringFromStream(requestStream);
             var data = JsonConvert.DeserializeObject<Dictionary<string, object>>(content);
 
-            return data == null 
-            ? Enumerable.Empty<string>()
-            : data.Keys.Select(x => x.Replace("_", ""));
+            return data == null
+                ? Enumerable.Empty<string>()
+                : data.Keys.Select(x => x.Replace("_", ""));
+        }
+
+        private static string ExtractStringFromStream(Stream stream)
+        {
+            using (var sr = new StreamReader(stream))
+            {
+                return sr.ReadToEnd();
+            }
         }
     }
 }
