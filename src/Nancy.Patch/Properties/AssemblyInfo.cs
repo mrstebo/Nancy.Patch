@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Nancy.Patch")]
 [assembly: AssemblyDescription("Added support for patching models")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Steven Atkinson")]
+[assembly: AssemblyCompany("mrstebo")]
 [assembly: AssemblyProduct("Nancy.Patch")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
