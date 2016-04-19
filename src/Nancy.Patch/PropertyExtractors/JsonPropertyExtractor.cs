@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Nancy.Patch.PropertyExtractors
 {
-    public class JsonPropertyExtractor : IPropertyExtractor
+    class JsonPropertyExtractor : IPropertyExtractor
     {
         public IEnumerable<string> Extract(Stream requestStream)
         {
