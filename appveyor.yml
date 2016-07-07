@@ -25,7 +25,7 @@ build:
   verbosity: minimal
 
 after_build:
-  - cmd: nuget pack src\SnakeCase.JsonNet\Nancy.Patch.csproj -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
+  - cmd: nuget pack src\Nancy.Patch\Nancy.Patch.csproj -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
 
 artifacts:
   - path: '*.nupkg'
