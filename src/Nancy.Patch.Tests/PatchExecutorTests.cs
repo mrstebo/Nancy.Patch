@@ -100,5 +100,27 @@ namespace Nancy.Patch.Tests
             Assert.AreNotEqual(from.Description, to.Description);
             Assert.AreNotEqual(from.ShortDescription, to.ShortDescription);
         }
+
+        [Test]
+        public void Patch_Should_Allow_Nullifying_Existing_Properties()
+        {
+            var from = new TestModel
+            {
+                Name = string.Empty
+            };
+            var to = new TestModel
+            {
+                Name = "Test"
+            };
+            var propertiesToMerge = new[]
+            {
+                "name"
+            };
+
+            var result = new PatchExecutor().Patch(from, to, propertiesToMerge);
+
+            Assert.IsTrue(result);
+            Assert.AreEqual(from.Name, to.Name);
+        }
     }
 }
