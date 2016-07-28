@@ -9,7 +9,12 @@ namespace Nancy.Patch
     {
         public static PatchResult Patch<T>(this INancyModule module, T target)
         {
-            var boundModel = module.Bind<T>(BindingConfig.NoOverwrite);
+            var config = new BindingConfig
+            {
+                Overwrite = false,
+                IgnoreErrors = true
+            };
+            var boundModel = module.Bind<T>(config);
             var propertiesToMerge = ExtractPropertiesToMerge(module.Request);
 
             return new PatchExecutor().Patch(boundModel, target, propertiesToMerge);
