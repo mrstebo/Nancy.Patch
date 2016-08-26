@@ -133,5 +133,28 @@ namespace Nancy.Patch.Tests
             Assert.IsTrue(result);
             Assert.AreEqual(from.Name, to.Name);
         }
+
+        [Test]
+        public void Patch_Should_Ignore_Read_Only_Property()
+        {
+            var from = new TestModel
+            {
+                Name = "Original"
+            };
+            var to = new TestModel()
+            {
+                Name = "To"
+            };
+            var propertiesToMerge = new[]
+            {
+                "name",
+                "readonlyname"
+            };
+
+            var result = new PatchExecutor().Patch(from, to, propertiesToMerge);
+
+            Assert.IsTrue(result);
+            Assert.AreEqual(from.Name, to.Name);
+        }
     }
 }

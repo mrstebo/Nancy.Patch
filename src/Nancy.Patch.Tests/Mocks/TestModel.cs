@@ -9,5 +9,10 @@ namespace Nancy.Patch.Tests.Mocks
         public string Description { get; set; }
         public string ShortDescription { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        public string ReadOnlyName
+        {
+            get { return "Test"; }
+        }
     }
 }
