@@ -31,6 +31,9 @@ namespace Nancy.Patch
             foreach (var propertyToMerge in propertiesToMerge)
             {
                 var propertyInfo = type.GetProperty(propertyToMerge, bindingFlags);
+                if (propertyInfo == null || !propertyInfo.CanWrite)
+                    continue;
+
                 var newValue = propertyInfo.GetValue(from, null);
 
                 propertyInfo.SetValue(to, newValue, null);

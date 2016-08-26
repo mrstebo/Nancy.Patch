@@ -6,5 +6,10 @@
         public string Name { get; set; }
         public string Description { get; set; }
         public string ShortDescription { get; set; }
+
+        public string ReadOnlyName
+        {
+            get { return "Test"; }
+        }
     }
 }
