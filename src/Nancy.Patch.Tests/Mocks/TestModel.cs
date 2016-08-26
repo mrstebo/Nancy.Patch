@@ -1,4 +1,6 @@
-﻿namespace Nancy.Patch.Tests.Mocks
+﻿using System;
+
+namespace Nancy.Patch.Tests.Mocks
 {
     public class TestModel
     {
@@ -6,6 +8,7 @@
         public string Name { get; set; }
         public string Description { get; set; }
         public string ShortDescription { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public string ReadOnlyName
         {

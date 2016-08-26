@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Nancy.Patch.Tests.Mocks;
 using NUnit.Framework;
 
@@ -15,21 +16,24 @@ namespace Nancy.Patch.Tests
                 Id = 2,
                 Name = "New Test",
                 Description = "Updated description",
-                ShortDescription = "Updated short description"
+                ShortDescription = "Updated short description",
+                CreatedAt = new DateTime(2015, 1, 2)
             };
             var to = new TestModel
             {
                 Id = 1,
                 Name = "Test",
                 Description = "This is a test",
-                ShortDescription = "Short description"
+                ShortDescription = "Short description",
+                CreatedAt = new DateTime(2015, 1, 1)
             };
             var propertiesToMerge = new[]
             {
                 "id",
                 "name",
                 "description",
-                "shortdescription"
+                "shortdescription",
+                "createdat"
             };
 
             var result = new PatchExecutor().Patch(from, to, propertiesToMerge);
@@ -39,6 +43,7 @@ namespace Nancy.Patch.Tests
             Assert.AreEqual(from.Name, to.Name);
             Assert.AreEqual(from.Description, to.Description);
             Assert.AreEqual(from.ShortDescription, to.ShortDescription);
+            Assert.AreEqual(from.CreatedAt, to.CreatedAt);
         }
 
         [Test]
@@ -49,14 +54,16 @@ namespace Nancy.Patch.Tests
                 Id = 2,
                 Name = "New Test",
                 Description = "Updated description",
-                ShortDescription = "Updated short description"
+                ShortDescription = "Updated short description",
+                CreatedAt = new DateTime(2015, 1, 2)
             };
             var to = new TestModel
             {
                 Id = 1,
                 Name = "Test",
                 Description = "This is a test",
-                ShortDescription = "Short description"
+                ShortDescription = "Short description",
+                CreatedAt = new DateTime(2015, 1, 1)
             };
             var propertiesToMerge = new[]
             {
@@ -71,6 +78,7 @@ namespace Nancy.Patch.Tests
             Assert.AreEqual(from.Name, to.Name);
             Assert.AreNotEqual(from.Description, to.Description);
             Assert.AreNotEqual(from.ShortDescription, to.ShortDescription);
+            Assert.AreNotEqual(from.CreatedAt, to.CreatedAt);
         }
 
         [Test]
@@ -81,14 +89,16 @@ namespace Nancy.Patch.Tests
                 Id = 2,
                 Name = "New Test",
                 Description = "Updated description",
-                ShortDescription = "Updated short description"
+                ShortDescription = "Updated short description",
+                CreatedAt = new DateTime(2015, 1, 2)
             };
             var to = new TestModel
             {
                 Id = 1,
                 Name = "Test",
                 Description = "This is a test",
-                ShortDescription = "Short description"
+                ShortDescription = "Short description",
+                CreatedAt = new DateTime(2015, 1, 1)
             };
             var propertiesToMerge = Enumerable.Empty<string>();
 
@@ -99,6 +109,29 @@ namespace Nancy.Patch.Tests
             Assert.AreNotEqual(from.Name, to.Name);
             Assert.AreNotEqual(from.Description, to.Description);
             Assert.AreNotEqual(from.ShortDescription, to.ShortDescription);
+            Assert.AreNotEqual(from.CreatedAt, to.CreatedAt);
+        }
+
+        [Test]
+        public void Patch_Should_Allow_Nullifying_Existing_Properties()
+        {
+            var from = new TestModel
+            {
+                Name = string.Empty
+            };
+            var to = new TestModel
+            {
+                Name = "Test"
+            };
+            var propertiesToMerge = new[]
+            {
+                "name"
+            };
+
+            var result = new PatchExecutor().Patch(from, to, propertiesToMerge);
+
+            Assert.IsTrue(result);
+            Assert.AreEqual(from.Name, to.Name);
         }
 
         [Test]
