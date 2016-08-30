@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\PropertyNotFoundException.cs" />
     <Compile Include="PatchExecutor.cs" />
     <Compile Include="PatchExtensions.cs" />
     <Compile Include="PatchResult.cs" />
