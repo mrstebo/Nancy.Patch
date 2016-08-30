@@ -2,14 +2,14 @@
 
 namespace Nancy.Patch.Exceptions
 {
-	internal class PropertyNotFoundException : Exception
-	{
-		public string PropertyName { get; private set; }
+    internal class PropertyNotFoundException : Exception
+    {
+        public string PropertyName { get; private set; }
 
-		public PropertyNotFoundException(string propertyName)
-			: base("Could not find writable property: " + propertyName)
-		{
-			PropertyName = propertyName;
-		}
-	}
+        public PropertyNotFoundException(string propertyName)
+            : base("Could not find writable property: " + propertyName)
+        {
+            PropertyName = propertyName;
+        }
+    }
 }

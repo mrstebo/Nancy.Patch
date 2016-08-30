@@ -33,8 +33,8 @@ namespace Nancy.Patch
             {
                 var propertyInfo = type.GetProperty(propertyToMerge, bindingFlags);
 
-	            if (propertyInfo == null || !propertyInfo.CanWrite)
-		            throw new PropertyNotFoundException(propertyToMerge);
+                if (propertyInfo == null || !propertyInfo.CanWrite)
+                    throw new PropertyNotFoundException(propertyToMerge);
 
                 var newValue = propertyInfo.GetValue(from, null);
 
