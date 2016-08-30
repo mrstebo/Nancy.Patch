@@ -135,7 +135,30 @@ namespace Nancy.Patch.Tests
         }
 
         [Test]
-        public void Patch_Should_Ignore_Read_Only_Property()
+        public void Patch_Given_Property_Not_In_Object_Should_Return_False_With_Message()
+        {
+            var from = new TestModel
+            {
+                Name = "Original"
+            };
+            var to = new TestModel()
+            {
+                Name = "To"
+            };
+            var propertiesToMerge = new[]
+            {
+                "name",
+                "iamnothere"
+            };
+
+            var result = new PatchExecutor().Patch(from, to, propertiesToMerge);
+
+            Assert.IsFalse(result);
+            Assert.AreEqual("Could not find writable property: iamnothere", result.Message);
+        }
+
+        [Test]
+        public void Patch_Given_Read_Only_Property_Should_Return_False_With_Message()
         {
             var from = new TestModel
             {
@@ -153,8 +176,8 @@ namespace Nancy.Patch.Tests
 
             var result = new PatchExecutor().Patch(from, to, propertiesToMerge);
 
-            Assert.IsTrue(result);
-            Assert.AreEqual(from.Name, to.Name);
+            Assert.IsFalse(result);
+            Assert.AreEqual("Could not find writable property: readonlyname", result.Message);
         }
     }
 }

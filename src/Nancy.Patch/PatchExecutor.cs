@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Nancy.Patch.Exceptions;
 
 namespace Nancy.Patch
 {
@@ -31,8 +32,9 @@ namespace Nancy.Patch
             foreach (var propertyToMerge in propertiesToMerge)
             {
                 var propertyInfo = type.GetProperty(propertyToMerge, bindingFlags);
+
                 if (propertyInfo == null || !propertyInfo.CanWrite)
-                    continue;
+                    throw new PropertyNotFoundException(propertyToMerge);
 
                 var newValue = propertyInfo.GetValue(from, null);
 
