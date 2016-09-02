@@ -179,5 +179,33 @@ namespace Nancy.Patch.Tests
             Assert.IsFalse(result);
             Assert.AreEqual("Could not find writable property: readonlyname", result.Message);
         }
+
+        [Test]
+        public void Patch_Ignore_Property_Decorated_With_JsonIgnoreAttribute_Return_True()
+        {
+            var from = new TestModel
+            {
+                Id = 1,
+                Description = "Original",
+            };
+            var to = new TestModel
+            {
+                Id = 2,
+                Description = "New",
+            };
+
+            var propertiesToMerge = new[]
+            {
+                "id",
+                "description",
+                "modelname"
+            };
+
+            var result = new PatchExecutor().Patch(from, to, propertiesToMerge);
+
+            Assert.IsTrue(result);
+            Assert.AreEqual(from.Id, to.Id);
+            Assert.AreEqual(from.Description, to.Description);
+        }
     }
 }
