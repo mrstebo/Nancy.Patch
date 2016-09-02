@@ -86,6 +86,23 @@ namespace Nancy.Patch.Tests
 
             Assert.AreEqual(default(DateTime), result.CreatedAt);
         }
+
+        [Test]
+        public void ShouldIgnore_JsonIgnoreProperties()
+        {
+            var response = _browser.Patch("/", with =>
+            {
+                with.HttpRequest();
+                with.Body(
+                    "{\"id\": \"1\", \"description\":\"This is a description\", \"modelname\": \"Hello World\"}");
+                with.Header("Content-Type", "application/json");
+            });
+            var result = response.Body.DeserializeJson<TestModel>();
+
+            Assert.AreEqual(1, result.Id);
+            Assert.AreEqual("This is a description", result.Description);
+            Assert.AreEqual("TestModelWithJsonIgnore", result.ModelName);
+        }
         
         private class MockModule : NancyModule
         {

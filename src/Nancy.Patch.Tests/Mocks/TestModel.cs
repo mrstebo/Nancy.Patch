@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace Nancy.Patch.Tests.Mocks
 {
@@ -13,6 +14,12 @@ namespace Nancy.Patch.Tests.Mocks
         public string ReadOnlyName
         {
             get { return "Test"; }
+        }
+
+        [JsonIgnore]
+        public string ModelName
+        {
+            get { return "TestModelWithJsonIgnore"; }
         }
     }
 }

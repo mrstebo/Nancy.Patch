@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Nancy.Patch.Exceptions;
+using Newtonsoft.Json;
 
 namespace Nancy.Patch
 {
@@ -33,13 +35,28 @@ namespace Nancy.Patch
             {
                 var propertyInfo = type.GetProperty(propertyToMerge, bindingFlags);
 
-                if (propertyInfo == null || !propertyInfo.CanWrite)
-                    throw new PropertyNotFoundException(propertyToMerge);
+                if (!CanMergeProperty(propertyInfo, propertyToMerge))
+                    continue;
 
                 var newValue = propertyInfo.GetValue(from, null);
 
                 propertyInfo.SetValue(to, newValue, null);
             }
+        }
+
+        private static bool CanMergeProperty(PropertyInfo propertyInfo, string propertyToMerge)
+        {
+            if (propertyInfo == null)
+                throw new PropertyNotFoundException(propertyToMerge);
+
+            var attributes = (JsonIgnoreAttribute[])propertyInfo.GetCustomAttributes(typeof(JsonIgnoreAttribute), false);
+
+            var hasJsonIgnoreAttribute = attributes.Any();
+
+            if (!propertyInfo.CanWrite && !hasJsonIgnoreAttribute)
+                throw new PropertyNotFoundException(propertyToMerge);
+
+            return !hasJsonIgnoreAttribute;
         }
     }
 }
